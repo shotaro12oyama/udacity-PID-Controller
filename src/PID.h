@@ -41,6 +41,9 @@ public:
   * Calculate the total PID error.
   */
   double TotalError();
+
+  // Twiddle Parameter
+  void TwiddleParam(double Kp, double Ki, double Kd);
 };
 
 #endif /* PID_H */
