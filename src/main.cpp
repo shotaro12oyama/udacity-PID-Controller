@@ -51,7 +51,7 @@ int main()
           double cte = std::stod(j[1]["cte"].get<std::string>());
           double speed = std::stod(j[1]["speed"].get<std::string>());
           //double angle = std::stod(j[1]["steering_angle"].get<std::string>());
-          double throttle = 0.3;
+          double throttle = 0.2;
           double steer_value = 0.0;
           /*
           * TODO: Calcuate steering value here, remember the steering value is
@@ -60,10 +60,10 @@ int main()
           * another PID controller to control the speed!
           */          
           pid.UpdateError(cte);
-          double p[3] = {0.1, 0.00001, 0.000000001};
+          double p[3] = {0.4, 0.000001, 6.0};
           pid.SetCoef(p[0], p[1], p[2]);
           double best_err = pid.TotalError();
-          double dp[3] = {0.01, 0.000001, 0.0000000001};
+          double dp[3] = {0.05, 0.0000001, 0.5};
           
           // twiddle parameter
           for(int i=0; i<10; i++) {
@@ -87,22 +87,14 @@ int main()
             }
           }
           
-          if (fabs(cte) < 0.1 ) {
-            steer_value = 0;
+          steer_value = -pid.Kp * pid.p_error - pid.Kd * pid.d_error - pid.Ki * pid.i_error;
+          if (fabs(cte) < 0.15 ) {
+            throttle = 0.5;
+          } else if (fabs(cte) > 0.6) {
+            throttle = 0.1;
           } else {
-            steer_value = -pid.Kp * pid.p_error + pid.Kd * pid.d_error - pid.Ki * pid.i_error;
-            throttle = 0.15;
+            throttle = 0.3;  
           }
-
-          //throttle = 0.3 * (1 - fabs(steer_value));
-          /*
-          if (speed < 5.0 ) {
-            throttle = 0.3;
-            steer_value = 0;
-          } else if (speed > 25 && throttle > 0.2) {
-            throttle = 0.2;
-          } 
-          */
 
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
