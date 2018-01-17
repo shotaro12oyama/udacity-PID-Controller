@@ -36,7 +36,7 @@ double PID::TotalError() {
 }
 
 
-void PID::TwiddleParam(double kp, double ki, double kd) {
+void PID::SetCoef(double kp, double ki, double kd) {
     Kp = kp;
     Ki = ki;
     Kd = kd;

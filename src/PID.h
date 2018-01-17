@@ -42,8 +42,8 @@ public:
   */
   double TotalError();
 
-  // Twiddle Parameter
-  void TwiddleParam(double Kp, double Ki, double Kd);
+  // Set Coefficients
+  void SetCoef(double Kp, double Ki, double Kd);
 };
 
 #endif /* PID_H */

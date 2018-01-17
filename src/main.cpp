@@ -61,16 +61,15 @@ int main()
           */          
           pid.UpdateError(cte);
           double p[3] = {0.1, 0.00001, 0.000000001};
-          pid.TwiddleParam(p[0], p[1], p[2]);
+          pid.SetCoef(p[0], p[1], p[2]);
           double best_err = pid.TotalError();
           double dp[3] = {0.01, 0.000001, 0.0000000001};
-          
           
           // twiddle parameter
           for(int i=0; i<10; i++) {
             for(int j=0; j<3; j++) {
               p[j] += dp[j];
-              pid.TwiddleParam(p[0], p[1], p[2]);
+              pid.SetCoef(p[0], p[1], p[2]);
               double err = pid.TotalError();
               if(err < best_err) {
                 best_err = err;
